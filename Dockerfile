@@ -3,7 +3,11 @@ FROM php:8.2-apache
 # Instalar extensões PHP
 RUN docker-php-ext-install mysqli pdo pdo_mysql
 
-# Ativar rewrite para MVC
+# Corrigir erro de MPM
+RUN a2dismod mpm_event mpm_worker || true
+RUN a2enmod mpm_prefork
+
+# Ativar rewrite
 RUN a2enmod rewrite
 
 # Copiar projeto
